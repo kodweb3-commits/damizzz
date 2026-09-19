@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="images/Green Simple Initial Logo(1).png" type="image/png">
+  <title>Latest Updates - Dammizz Food Mart</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <div class="top-strip">
+    <div class="container top-strip-inner">
+      <div class="top-strip-left">
+        <span><i class="fas fa-leaf"></i> Fresh Foodstuffs</span>
+        <span><i class="fas fa-tag"></i> Affordable Prices</span>
+        <span><i class="fas fa-truck"></i> Nationwide Delivery</span>
+      </div>
+      <div class="top-strip-right">
+        <span><i class="fas fa-envelope"></i> support@dammizzfoodmart.com</span>
+        <span><i class="fas fa-phone-alt"></i> +234 803 186 3966</span>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <img class="logo-icon" src="images/Green Simple Initial Logo(1).png" alt="Dammizz Enterprise logo">
+        <div class="logo-text">
+          <span class="logo-main">Dammizz</span>
+          <span class="logo-sub">Foodmart</span>
+          <small>Good Food, Better Living</small>
+        </div>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="offers.html">Shop <i class="fas fa-chevron-down"></i></a></li>
+        <li><a href="product.html">Products &amp; Pricing</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="nav-search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search for products..." aria-label="Search products" />
+        </div>
+        <button class="nav-search-btn" id="searchToggle" aria-label="Search"><i class="fas fa-search"></i></button>
+        <a class="notification-btn" href="updates.html" aria-label="View announcements">
+          <i class="fas fa-user"></i>
+        </a>
+        <button class="cart-btn" id="cartToggle" aria-label="View cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="search-bar" id="searchBar">
+      <div class="container">
+        <input type="text" id="searchInput" placeholder="Search for fresh vegetables, fruits, dairy…"/>
+        <button id="searchBtn"><i class="fas fa-search"></i> Search</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-header updates-page-header">
+    <div class="container">
+      <span class="section-tag"><i class="fas fa-bell"></i> Stay Informed</span>
+      <h1>Latest Dammizz Updates</h1>
+      <p>New products, price-list changes, offers, and store news in one place.</p>
+    </div>
+  </section>
+
+  <main class="updates-section">
+    <div class="container">
+      <div class="updates-intro">
+        <div>
+          <span class="section-tag">What's New</span>
+          <h2>Fresh news from <span>Dammizz Foodmart</span></h2>
+        </div>
+        <a class="btn btn-primary" href="product.html">Shop the price list <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="updates-grid">
+        <article class="update-card update-card-featured">
+          <div class="update-card-top">
+            <span class="update-label"><i class="fas fa-sparkles"></i> New</span>
+            <time datetime="2026-09-18">18 September 2026</time>
+          </div>
+          <h2>Our Dammizz Foodmart price list is now live</h2>
+          <p>Find prices for rice, beans, garri, pasta, yam, oils, sugar, seasonings, provisions, and more. Use the category buttons to find what you need quickly.</p>
+          <a href="product.html" class="update-link">View the full price list <i class="fas fa-arrow-right"></i></a>
+        </article>
+
+        <article class="update-card">
+          <div class="update-card-top">
+            <span class="update-label"><i class="fas fa-bullhorn"></i> Notice</span>
+            <time datetime="2026-09-18">18 September 2026</time>
+          </div>
+          <h3>Prices are arranged by size and measure</h3>
+          <p>Compare bags, modules, cups, bottles, packs, and pieces in one simple view before placing your order.</p>
+        </article>
+
+        <article class="update-card">
+          <div class="update-card-top">
+            <span class="update-label"><i class="fas fa-basket-shopping"></i> In store</span>
+            <time datetime="2026-09-18">18 September 2026</time>
+          </div>
+          <h3>More everyday foodstuff is available</h3>
+          <p>Ask us about kulikuli, egusi, ogbono, crayfish, stockfish, vegetables, fruits, and other provisions not yet assigned a fixed online price.</p>
+          <a href="contact.html" class="update-link">Contact us <i class="fas fa-arrow-right"></i></a>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-bottom-inner updates-footer">
+      <p>&copy; 2026 Dammizz Food Mart. All rights reserved.</p>
+      <a href="index.html">Back to home <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
