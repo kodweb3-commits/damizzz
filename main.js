@@ -2,82 +2,93 @@
 // DAMMIZZ FOOD MART — MAIN JAVASCRIPT (multi-page safe)
 // =============================================
 
+// Guard against this file being <script>-included more than once on the
+// same page. If that happens, every listener below gets attached twice —
+// which is the classic cause of "add to cart" toasts, form submits, etc.
+// appearing to fire twice. Check your HTML for a duplicate
+// <script src="main.js"></script> tag if you still see doubled behavior
+// after this.
+if (window.__DAMMIZZ_MAIN_LOADED__) {
+  console.warn("main.js was included more than once on this page — skipping the second run.");
+} else {
+window.__DAMMIZZ_MAIN_LOADED__ = true;
+
 // ---- PRODUCT DATA ----
 const productsData = [
   // Rice
-  { id: 1, name: "Rice - 50kg bag", category: "rice", emoji: "🍚", price: 58000, image: "images/products/1634569714Mama-choice---50-420x458.jpg" },
-  { id: 2, name: "Rice - 25kg half bag", category: "rice", emoji: "🍚", price: 29000, image: "images/products/1634569714Mama-choice---50-420x458.jpg" },
-  { id: 3, name: "Rice - quarter bag", category: "rice", emoji: "🍚", price: 14500, image: "images/products/1634569714Mama-choice---50-420x458.jpg" },
-  { id: 4, name: "Rice - module", category: "rice", emoji: "🍚", price: 2200, image: "images/products/1634569714Mama-choice---50-420x458.jpg" },
-  { id: 5, name: "Rice - half module", category: "rice", emoji: "🍚", price: 1100, image: "images/products/1634569714Mama-choice---50-420x458.jpg" },
-  { id: 6, name: "Rice - one cup", category: "rice", emoji: "🍚", price: 250, image: "images/products/1634569714Mama-choice---50-420x458.jpg" },
+  { id: 1, name: "Rice - 50kg bag", category: "rice", price: 58000, image: "images/products/rice.png" },
+  { id: 2, name: "Rice - 25kg half bag", category: "rice", price: 29000, image: "images/products/rice.png" },
+  { id: 3, name: "Rice - quarter bag", category: "rice", price: 14500, image: "images/products/rice.png" },
+  { id: 4, name: "Rice - module", category: "rice", price: 2200, image: "images/products/rice.png" },
+  { id: 5, name: "Rice - half module", category: "rice", price: 1100, image: "images/products/rice.png" },
+  { id: 6, name: "Rice - one cup", category: "rice", price: 250, image: "images/products/rice.png" },
   // Beans
-  { id: 7, name: "Oloyin Gidi - module", category: "beans", emoji: "🫛", price: 2600, image: "images/products/images (2).jpg" },
-  { id: 8, name: "Oloyin Gidi - half module", category: "beans", emoji: "🫛", price: 1150, image: "images/products/images (2).jpg" },
-  { id: 9, name: "Oloyin Gidi - one cup", category: "beans", emoji: "🫛", price: 270, image: "images/products/images (2).jpg" },
-  { id: 10, name: "Oloyin Pelebe - module", category: "beans", emoji: "🫛", price: 2400, image: "images/products/images (2).jpg" },
-  { id: 11, name: "Oloyin Pelebe - half module", category: "beans", emoji: "🫛", price: 1200, image: "images/products/images (2).jpg" },
-  { id: 12, name: "Oloyin Pelebe - one cup", category: "beans", emoji: "🫛", price: 250, image: "images/products/images (2).jpg" },
+  { id: 7, name: "Oloyin Gidi - module", category: "beans", price: 2600, image: "images/products/images (2).jpg" },
+  { id: 8, name: "Oloyin Gidi - half module", category: "beans", price: 1150, image: "images/products/images (2).jpg" },
+  { id: 9, name: "Oloyin Gidi - one cup", category: "beans", price: 270, image: "images/products/images (2).jpg" },
+  { id: 10, name: "Oloyin Pelebe - module", category: "beans", price: 2400, image: "images/products/images (2).jpg" },
+  { id: 11, name: "Oloyin Pelebe - half module", category: "beans", price: 1200, image: "images/products/images (2).jpg" },
+  { id: 12, name: "Oloyin Pelebe - one cup", category: "beans", price: 250, image: "images/products/images (2).jpg" },
   // Garri
-  { id: 13, name: "Garri Ijebu - module", category: "garri", emoji: "🥣", price: 1400, image: "images/products/GarriIjebu_Grade1_10kgBag_grande.webp" },
-  { id: 14, name: "Garri Ijebu - half module", category: "garri", emoji: "🥣", price: 700, image: "images/products/GarriIjebu_Grade1_10kgBag_grande.webp" },
-  { id: 15, name: "Garri Ilora - module", category: "garri", emoji: "🥣", price: 600, image: "images/products/GarriIjebu_Grade1_10kgBag_grande.webp" },
-  { id: 16, name: "Garri Ilora - half module", category: "garri", emoji: "🥣", price: 300, image: "images/products/GarriIjebu_Grade1_10kgBag_grande.webp" },
-  { id: 17, name: "Normal Garri - module", category: "garri", emoji: "🥣", price: 500, image: "images/products/GarriIjebu_Grade1_10kgBag_grande.webp" },
-  { id: 18, name: "Normal Garri - half module", category: "garri", emoji: "🥣", price: 250, image: "images/products/GarriIjebu_Grade1_10kgBag_grande.webp" },
+  { id: 13, name: "Garri Ijebu - module", category: "garri", price: 1400, image: "images/products/GarriIjebu_Grade1_10kgBag_grande.webp" },
+  { id: 14, name: "Garri Ijebu - half module", category: "garri", price: 700, image: "images/products/GarriIjebu_Grade1_10kgBag_grande.webp" },
+  { id: 15, name: "Garri Ilora - module", category: "garri", price: 600, image: "images/products/garri-ilora.jpg" },
+  { id: 16, name: "Garri Ilora - half module", category: "garri", price: 300, image: "images/products/garri-ilora.jpg" },
+  { id: 17, name: "Normal Garri - module", category: "garri", price: 500, image: "images/products/normal-garri.jpg" },
+  { id: 18, name: "Normal Garri - half module", category: "garri", price: 250, image: "images/products/normal-garri.jpg" },
   // Pasta and noodles
-  { id: 19, name: "Crown Pasta", category: "pasta", emoji: "🍝", price: 1100, image: "images/products/images (3).jpg" },
-  { id: 20, name: "Golden Penny Spaghetti", category: "pasta", emoji: "🍝", price: 1150, image: "images/products/images (3).jpg" },
-  { id: 21, name: "Honeywell Spaghetti", category: "pasta", emoji: "🍝", price: 900, image: "images/products/images (3).jpg" },
-  { id: 22, name: "Mama's Pride Spaghetti", category: "pasta", emoji: "🍝", price: 1000, image: "images/products/images (3).jpg" },
-  { id: 23, name: "Indomitable - pack", category: "pasta", emoji: "🍜", price: 10500, image: "images/products/images (5).jpg" },
-  { id: 24, name: "Indomitable - half pack", category: "pasta", emoji: "🍜", price: 5300, image: "images/products/images (5).jpg" },
-  { id: 25, name: "Indomitable - piece", category: "pasta", emoji: "🍜", price: 270, image: "images/products/images (5).jpg" },
+  { id: 19, name: "Crown Pasta", category: "pasta", price: 1100, image: "images/products/crown-pasta.jpg" },
+  { id: 20, name: "Golden Penny Spaghetti", category: "pasta", price: 1150, image: "images/products/images (3).jpg" },
+  { id: 21, name: "Honeywell Spaghetti", category: "pasta", price: 900, image: "images/products/honeywell-spaghetti.png" },
+  { id: 22, name: "Mama's Pride Spaghetti", category: "pasta", price: 1000, image: "images/products/mamas-pride-spaghetti.webp" },
+  { id: 23, name: "Indomitable - pack", category: "pasta", price: 10500, image: "images/products/images (5).jpg" },
+  { id: 24, name: "Indomitable - half pack", category: "pasta", price: 5300, image: "images/products/images (5).jpg" },
+  { id: 25, name: "Indomitable - piece", category: "pasta", price: 270, image: "images/products/images (5).jpg" },
   // Yam and oils
-  { id: 26, name: "Water Yam (Ewura) - from", category: "yam", emoji: "🍠", price: 3000, priceNote: "upward", image: "images/products/images (6).jpg" },
-  { id: 27, name: "White Yam (Isu Iyan) - from", category: "yam", emoji: "🍠", price: 5000, priceNote: "upward", image: "images/products/images (6).jpg" },
-  { id: 28, name: "Palm Oil - 10 litres", category: "oils", emoji: "🫗", price: 18000, image: "images/products/images (7).jpg" },
-  { id: 29, name: "Palm Oil - 5 litres", category: "oils", emoji: "🫗", price: 9000, image: "images/products/images (7).jpg" },
-  { id: 30, name: "Palm Oil - 2.5 litres", category: "oils", emoji: "🫗", price: 5000, image: "images/products/images (7).jpg" },
-  { id: 31, name: "Palm Oil - 1 litre", category: "oils", emoji: "🫗", price: 2500, image: "images/products/images (7).jpg" },
-  { id: 32, name: "Palm Oil - 75cl bottle", category: "oils", emoji: "🫗", price: 1800, image: "images/products/images (7).jpg" },
-  { id: 33, name: "Vegetable Oil - 10 litres", category: "oils", emoji: "🫗", price: 21000, image: "images/products/images (8).jpg" },
-  { id: 34, name: "Vegetable Oil - 5 litres", category: "oils", emoji: "🫗", price: 11000, image: "images/products/images (8).jpg" },
-  { id: 35, name: "Vegetable Oil - 2.5 litres", category: "oils", emoji: "🫗", price: 5500, image: "images/products/images (8).jpg" },
-  { id: 36, name: "Vegetable Oil - 1 litre", category: "oils", emoji: "🫗", price: 2300, image: "images/products/images (8).jpg" },
-  { id: 37, name: "Vegetable Oil - 75cl bottle", category: "oils", emoji: "🫗", price: 2100, image: "images/products/images (8).jpg" },
+  { id: 26, name: "Water Yam (Ewura) - from", category: "yam", price: 3000, priceNote: "upward", image: "images/products/images (6).jpg" },
+  { id: 27, name: "White Yam (Isu Iyan) - from", category: "yam", price: 5000, priceNote: "upward", image: "images/products/images (6).jpg" },
+  { id: 28, name: "Palm Oil - 10 litres", category: "oils", price: 18000, image: "images/products/images (7).jpg" },
+  { id: 29, name: "Palm Oil - 5 litres", category: "oils", price: 9000, image: "images/products/images (7).jpg" },
+  { id: 30, name: "Palm Oil - 2.5 litres", category: "oils", price: 5000, image: "images/products/images (7).jpg" },
+  { id: 31, name: "Palm Oil - 1 litre", category: "oils", price: 2500, image: "images/products/images (7).jpg" },
+  { id: 32, name: "Palm Oil - 75cl bottle", category: "oils", price: 1800, image: "images/products/images (7).jpg" },
+  { id: 33, name: "Vegetable Oil - 10 litres", category: "oils", price: 21000, image: "images/products/images (8).jpg" },
+  { id: 34, name: "Vegetable Oil - 5 litres", category: "oils", price: 11000, image: "images/products/images (8).jpg" },
+  { id: 35, name: "Vegetable Oil - 2.5 litres", category: "oils", price: 5500, image: "images/products/images (8).jpg" },
+  { id: 36, name: "Vegetable Oil - 1 litre", category: "oils", price: 2300, image: "images/products/images (8).jpg" },
+  { id: 37, name: "Vegetable Oil - 75cl bottle", category: "oils", price: 2100, image: "images/products/images (8).jpg" },
   // Sugar and seasonings
-  { id: 38, name: "Sugar - 5 modules", category: "seasonings", emoji: "🍬", price: 14000, image: "images/products/images (9).jpg" },
-  { id: 39, name: "Sugar - 1 module", category: "seasonings", emoji: "🍬", price: 2800, image: "images/products/images (9).jpg" },
-  { id: 40, name: "Sugar - half module", category: "seasonings", emoji: "🍬", price: 1400, image: "images/products/images (9).jpg" },
-  { id: 41, name: "Sugar - one cup", category: "seasonings", emoji: "🍬", price: 300, image: "images/products/images (9).jpg" },
-  { id: 42, name: "Knorr - 100 pieces", category: "seasonings", emoji: "🧂", price: 3100, image: "images/products/images (10).jpg" },
-  { id: 43, name: "Chicken flavour - 25 pieces", category: "seasonings", emoji: "🧂", price: 450, image: "images/products/images (10).jpg" },
-  { id: 44, name: "Terra - 25 pieces", category: "seasonings", emoji: "🧂", price: 500, image: "images/products/images (10).jpg" },
-  { id: 45, name: "Terra - 100 pieces", category: "seasonings", emoji: "🧂", price: 100, image: "images/products/images (10).jpg" },
+  { id: 38, name: "Sugar - 5 modules", category: "seasonings", price: 14000, image: "images/products/images (9).jpg" },
+  { id: 39, name: "Sugar - 1 module", category: "seasonings", price: 2800, image: "images/products/images (9).jpg" },
+  { id: 40, name: "Sugar - half module", category: "seasonings", price: 1400, image: "images/products/images (9).jpg" },
+  { id: 41, name: "Sugar - one cup", category: "seasonings", price: 300, image: "images/products/images (9).jpg" },
+  { id: 42, name: "Knorr - 100 pieces", category: "seasonings", price: 3100, image: "images/products/knorr.jpg" },
+  { id: 43, name: "Chicken flavour - 25 pieces", category: "seasonings", price: 450, image: "images/products/maggi-chicken.jpg" },
+  { id: 44, name: "Terra - 25 pieces", category: "seasonings", price: 500, image: "images/products/terra.jpg" },
+  { id: 45, name: "Terra - 100 pieces", category: "seasonings", price: 100, image: "images/products/terra.jpg" },
   // Semovita, milk and tomato paste
-  { id: 46, name: "Golden Penny Semovita - 1kg", category: "provisions", emoji: "🥣", price: 1600, image: "images/products/images (11).jpg" },
-  { id: 47, name: "Golden Penny Semovita - 2kg", category: "provisions", emoji: "🥣", price: 3200, image: "images/products/images (11).jpg" },
-  { id: 48, name: "Loyal Milk - one row", category: "provisions", emoji: "🥛", price: 2000, image: "images/products/Peak_UHT_Full_Cream__1-NOBG.webp" },
-  { id: 49, name: "Three Crowns Milk - one row", category: "provisions", emoji: "🥛", price: 1400, image: "images/products/Peak_UHT_Full_Cream__1-NOBG.webp" },
-  { id: 50, name: "Cowbell Milk - one row", category: "provisions", emoji: "🥛", price: 1500, image: "images/products/Peak_UHT_Full_Cream__1-NOBG.webp" },
-  { id: 51, name: "Gino Paste - 5 pieces", category: "provisions", emoji: "🥫", price: 1000, image: "images/products/images (12).jpg" },
-  { id: 52, name: "Gino Paste - piece", category: "provisions", emoji: "🥫", price: 250, image: "images/products/images (12).jpg" },
-  { id: 53, name: "Tomato Jos - 5 pieces", category: "provisions", emoji: "🥫", price: 700, image: "images/products/images (13).jpg" },
-  { id: 54, name: "Tomato Jos - piece", category: "provisions", emoji: "🥫", price: 150, image: "images/products/images (13).jpg" },
+  { id: 46, name: "Golden Penny Semovita - 1kg", category: "provisions", price: 1600, image: "images/products/images (11).jpg" },
+  { id: 47, name: "Golden Penny Semovita - 2kg", category: "provisions", price: 3200, image: "images/products/images (11).jpg" },
+  { id: 48, name: "Loya Milk - one row", category: "provisions", price: 2000, image: "images/products/loya-milk.jpg" },
+  { id: 49, name: "Three Crowns Milk - one row", category: "provisions", price: 1400, image: "images/products/three-crowns-milk.jpg" },
+  { id: 50, name: "Cowbell Milk - one row", category: "provisions", price: 1500, image: "images/products/cowbell-milk.jpg" },
+  { id: 51, name: "Gino Paste - 5 pieces", category: "provisions", price: 1000, image: "images/products/images (12).jpg" },
+  { id: 52, name: "Gino Paste - piece", category: "provisions", price: 250, image: "images/products/images (12).jpg" },
+  { id: 53, name: "Tomato Jos - 5 pieces", category: "provisions", price: 700, image: "images/products/images (13).jpg" },
+  { id: 54, name: "Tomato Jos - piece", category: "provisions", price: 150, image: "images/products/images (13).jpg" },
   // Other products mentioned without a supplied price
-  { id: 55, name: "Kulikuli", category: "other", emoji: "🥜", price: null, image: "images/products/kulikuli.jpg" },
-  { id: 56, name: "Egusi (lilo and seed)", category: "other", emoji: "🌰", price: null },
-  { id: 57, name: "Ogbono", category: "other", emoji: "🌰", price: null },
-  { id: 58, name: "Salt", category: "other", emoji: "🧂", price: null },
-  { id: 59, name: "Curry and thyme", category: "other", emoji: "🌿", price: null },
-  { id: 60, name: "Crayfish", category: "other", emoji: "🦐", price: 1200, priceNote: "per cup" },
-  { id: 61, name: "Stockfish", category: "other", emoji: "🐟", price: null },
-  { id: 62, name: "Onion, ginger and garlic", category: "other", emoji: "🧄", price: null },
-  { id: 63, name: "Dried ponmo and prawns", category: "other", emoji: "🍲", price: null },
-  { id: 64, name: "Vegetables", category: "other", emoji: "🥬", price: null },
-  { id: 65, name: "Banana and plantain", category: "fruits", emoji: "🍌", price: null },
-  { id: 66, name: "Coconut, apple, grapes, carrot and pineapple", category: "fruits", emoji: "🍍", price: null },
+  { id: 55, name: "Kulikuli", category: "other", price: null, image: "images/products/kulikuli.jpg" },
+  { id: 56, name: "Egusi (lilo and seed)", category: "other", price: null, image: "images/products/egusi.jpg" },
+  { id: 57, name: "Ogbono", category: "other", price: null, image: "images/products/ogbono.jpg" },
+  { id: 58, name: "Salt", category: "other", price: null, image: "images/products/salt.jpg" },
+  { id: 59, name: "Curry and thyme", category: "other", price: null, image: "images/products/curry-thyme.jpg" },
+  { id: 60, name: "Crayfish", category: "other", price: 1200, priceNote: "per cup", image: "images/products/crayfish.jpg" },
+  { id: 61, name: "Stockfish", category: "other", price: null, image: "images/products/stockfish.jpg" },
+  { id: 62, name: "Onion, ginger and garlic", category: "other", price: null, image: "images/products/onions.webp" },
+  { id: 63, name: "Dried ponmo and prawns", category: "other", price: null, image: "images/products/ponmo.jpg" },
+  { id: 64, name: "Vegetables", category: "other", price: null, image: "images/products/vegetables.jpg" },
+  { id: 65, name: "Banana and plantain", category: "fruits", price: null, image: "images/products/banana-plantain.jpg" },
+  { id: 66, name: "Coconut, apple, grapes, carrot and pineapple", category: "fruits", price: null, image: "images/products/fruit-mix.jpg" },
 ];
 
 // ---- STATE ----
@@ -89,6 +100,16 @@ let filteredProducts = [...productsData];
 // ---- UTILITIES ----
 const $ = (id) => document.getElementById(id);
 const formatNaira = (n) => `₦${n.toLocaleString("en-NG")}.00`;
+
+// Used when a product has no photo yet, or its photo fails to load.
+// Deliberately text-only (no emoji/icon) per house style.
+function makePhotoPending() {
+  const el = document.createElement("div");
+  el.className = "product-photo-pending";
+  el.textContent = "Photo coming soon";
+  el.style.cssText = "display:flex;align-items:center;justify-content:center;height:100%;width:100%;color:var(--gray,#8a8a8a);font-size:0.78rem;font-weight:600;text-align:center;padding:8px;";
+  return el;
+}
 const categoryLabels = {
   rice: "Rice",
   beans: "Beans",
@@ -176,12 +197,25 @@ document.querySelectorAll(".announcement-bar").forEach(bar => {
 });
 
 // ---- SEARCH BAR ----
-const searchInput = document.querySelector(".nav-search-box input");
-const searchBtn = document.querySelector(".nav-search-btn");
+// On desktop, ".nav-search-box input" is the visible, always-on search field.
+// On mobile it's hidden by CSS (@media max-width:1100px), so tapping the
+// search icon there must open the "#searchBar" overlay instead — otherwise
+// the icon looks broken because it's trying to read a value from a hidden,
+// never-typed-into input.
+const searchToggle = $("searchToggle");
+const searchBarOverlay = $("searchBar");
+const desktopSearchInput = document.querySelector(".nav-search-box input");
+const overlaySearchInput = $("searchInput");
+const overlaySearchBtn = $("searchBtn");
 
-function doSearch() {
-  if (!searchInput) return;
-  const q = searchInput.value.trim();
+function isVisible(el) {
+  return !!(el && (el.offsetWidth || el.offsetHeight || el.getClientRects().length));
+}
+
+function doSearch(inputEl) {
+  const input = inputEl || (isVisible(desktopSearchInput) ? desktopSearchInput : overlaySearchInput);
+  if (!input) return;
+  const q = input.value.trim();
   if (!q) return;
 
   // If we're not on the products page, navigate there with the query.
@@ -191,6 +225,30 @@ function doSearch() {
   }
 
   applySearch(q);
+  if (searchBarOverlay) searchBarOverlay.classList.remove("open");
+}
+
+if (searchToggle) {
+  searchToggle.addEventListener("click", () => {
+    if (isVisible(desktopSearchInput)) {
+      // Desktop: search box is already on screen, act on it directly.
+      doSearch(desktopSearchInput);
+    } else if (searchBarOverlay) {
+      // Mobile: open the dropdown search bar so there's somewhere to type.
+      searchBarOverlay.classList.toggle("open");
+      if (searchBarOverlay.classList.contains("open") && overlaySearchInput) {
+        overlaySearchInput.focus();
+      }
+    }
+  });
+}
+
+if (desktopSearchInput) {
+  desktopSearchInput.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(desktopSearchInput); });
+}
+if (overlaySearchBtn) overlaySearchBtn.addEventListener("click", () => doSearch(overlaySearchInput));
+if (overlaySearchInput) {
+  overlaySearchInput.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(overlaySearchInput); });
 }
 
 function applySearch(q) {
@@ -209,9 +267,6 @@ function applySearch(q) {
   if (productsSection) productsSection.scrollIntoView({ behavior: "smooth" });
 }
 
-if (searchBtn) searchBtn.addEventListener("click", doSearch);
-if (searchInput) searchInput.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(); });
-
 // ---- RENDER PRODUCTS (product.html only) ----
 function renderProducts() {
   const grid = $("productsGrid");
@@ -222,7 +277,6 @@ function renderProducts() {
 
   if (toShow.length === 0) {
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--gray);">
-      <div style="font-size:3rem;margin-bottom:12px;">🔍</div>
       <h3>No products found</h3><p>Try a different search or filter.</p></div>`;
     const loadMoreBtn = $("loadMoreBtn");
     if (loadMoreBtn) loadMoreBtn.style.display = "none";
@@ -241,9 +295,8 @@ function renderProducts() {
     const product = group[0];
     const productTitle = product.name.split(" - ")[0];
     const productVisual = product.image
-      ? `<img src="${product.image}" alt="${productTitle}" loading="lazy" onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
-          <span class="product-emoji-fallback" hidden>${product.emoji}</span>`
-      : `<span class="product-emoji-fallback">${product.emoji}</span>`;
+      ? `<img src="${product.image}" alt="${productTitle}" loading="lazy" onerror="this.replaceWith(makePhotoPending())">`
+      : `<div class="product-photo-pending" style="display:flex;align-items:center;justify-content:center;height:100%;width:100%;color:var(--gray,#8a8a8a);font-size:0.78rem;font-weight:600;text-align:center;padding:8px;">Photo coming soon</div>`;
     const optionRows = group.map(item => {
       const optionName = item.price === null
         ? "Other products available"
@@ -264,7 +317,7 @@ function renderProducts() {
     }).join("");
 
     const card = document.createElement("div");
-    const containsProductImage = /milk/i.test(productTitle);
+    const containsProductImage = /milk|crown pasta|chicken flavour|curry and thyme|ogbono/i.test(productTitle);
     card.className = `product-card price-list-card reveal${containsProductImage ? " product-image-contain" : ""}`;
     card.dataset.category = product.category;
     card.style.animationDelay = `${i * 0.07}s`;
@@ -326,11 +379,11 @@ function addToCart(productId) {
   if (existing) {
     existing.qty += 1;
   } else {
-    cart.push({ id: product.id, name: product.name, emoji: product.emoji, price: product.price, qty: 1 });
+    cart.push({ id: product.id, name: product.name, image: product.image, price: product.price, qty: 1 });
   }
   saveCart();
   updateCartUI();
-  showToast(`✅ ${product.emoji} ${product.name} added to cart!`, "success");
+  showToast(`${product.name} added to cart!`, "success");
 }
 
 function removeFromCart(productId) {
@@ -355,7 +408,7 @@ function clearCart() {
   cart = [];
   saveCart();
   updateCartUI();
-  showToast("🗑️ Cart cleared", "error");
+  showToast("Cart cleared", "error");
 }
 
 function updateCartUI() {
@@ -384,7 +437,10 @@ function updateCartUI() {
 
     cartItems.innerHTML = cart.map(item => `
       <div class="cart-item">
-        <div class="cart-item-emoji">${item.emoji}</div>
+        <div class="cart-item-thumb" style="width:52px;height:52px;border-radius:10px;overflow:hidden;flex-shrink:0;background:#f5f5f0;">${item.image
+          ? `<img src="${item.image}" alt="${item.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.replaceWith(makePhotoPending())">`
+          : `<div class="product-photo-pending" style="display:flex;align-items:center;justify-content:center;height:100%;width:100%;color:var(--gray,#8a8a8a);font-size:0.6rem;font-weight:600;text-align:center;padding:4px;">No photo</div>`}
+        </div>
         <div class="cart-item-info">
           <div class="cart-item-name">${item.name}</div>
           <div class="cart-item-price">${formatNaira(item.price)}</div>
@@ -402,7 +458,7 @@ function updateCartUI() {
     if (cartReviewItems) {
       cartReviewItems.innerHTML = cart.map(item => `
         <div class="review-item">
-          <span class="review-item-name">${item.emoji} ${item.name}</span>
+          <span class="review-item-name">${item.name}</span>
           <span class="review-item-meta">Qty: ${item.qty} · ${formatNaira(item.price * item.qty)}</span>
         </div>
       `).join("");
@@ -642,10 +698,19 @@ if ($("productsGrid")) {
   const params = new URLSearchParams(window.location.search);
   const q = params.get("search");
   renderProducts();
-  if (q && searchInput) {
-    searchInput.value = q;
+  if (q) {
+    const target = isVisible(desktopSearchInput) ? desktopSearchInput : overlaySearchInput;
+    if (target) target.value = q;
     applySearch(q);
   }
 }
 updateCartUI();
 observeRevealElements();
+
+// Expose functions referenced by inline onclick="" attributes in the
+// cart markup (rendered as HTML strings, so they must be reachable
+// on window regardless of this block's scoping).
+window.updateQty = updateQty;
+window.removeFromCart = removeFromCart;
+
+} // end __DAMMIZZ_MAIN_LOADED__ guard

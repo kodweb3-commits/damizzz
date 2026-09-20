@@ -257,7 +257,7 @@ input, textarea, select { font-family: var(--font-body); outline: none; }
 
 /* Search Bar */
 .search-bar {
-  display: none !important;
+  display: none;
 }
 .search-bar.open { display: block; animation: slideDown 0.25s ease; }
 @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:none; } }
